@@ -26,7 +26,8 @@ Utilizaremos as classes que foram implementadas no ECMAScript 2015 para criaçã
 
 Para começar, precisamos criar uma classe chamada Fila, onde teremos o início da fila (head), fim da fila (tail) e um contador (count). Como a fila está vazia, o nosso head e nosso tail recebem o valor null, e nosso contador começa em 0. Precisamos também de um método Get para nosso contador:
 
-```class Fila {
+```
+class Fila {
     constructor(head = null, tail = null, count = 0){
         this.head = head;
         this.tail = tail;
@@ -36,4 +37,5 @@ Para começar, precisamos criar uma classe chamada Fila, onde teremos o início 
         return this.count;
     }
 }
+```
 
