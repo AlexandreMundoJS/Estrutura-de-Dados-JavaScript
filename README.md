@@ -136,4 +136,5 @@ console.log(fila.MostrarTudo());
 console.log(fila);
 ```
 E a nossa saída será:
+
 ![fila](https://miro.medium.com/max/331/0*UUAYxtMwo9VGn6qc.png)
