@@ -417,3 +417,169 @@ RemoverNaPosicao(index){
 }
 ```
 
+### DEQUE (Fila Duplamente Encadeada):
+
+O Deque (Fila duplamente Encadeada) funciona basicamente com uma fila, com a diferença de que você pode adicionar e remover dados de qualquer extremidade da fila. Isso torna o nosso código um pouco mais difícil, mas chegaremos lá. Continuaremos usando class para realizar nossa estrutura de dados. Precisamos, inicialmente, criar a nossa classe Deque. Ela precisará de um início (head), um final (tail) e um contador:
+
+![deque](https://miro.medium.com/max/414/0*IShnMhggb7bxPig8.png)
+
+```
+class Deque {
+    constructor(head = null, tail = null, count = 0){
+        this.head = head;
+        this.tail = tail;
+        this.count = count;
+    }
+}
+```
+
+Também precisaremos criar os métodos GetHead, GetTail e GetCount:
+
+
+```
+GetHead(){
+    if (this.head){
+        return this.head.data;
+    }
+    return null;
+}
+GetTail(){
+    if (this.tail){
+        return this.tail.data;
+    }
+    return null;
+}
+GetCount(){
+    return this.count;
+}
+```
+
+A nossa fila duplamente encadeada terá os seguintes métodos:
+
+- MostrarInicioFim();
+- MostrarFimInicio();
+- AdicionarInicio(data);
+- AdicionarFim(data);- 
+- RemoverInicio();
+- RemoverFim().
+- 
+Para criarmos nossos métodos, criaremos nosso código de forma diferente aos anteriores. Utilizaremos uma Classe de auxílio, para evitar reescrever código:
+
+```
+class Node{
+    constructor(data, next = null){
+        this.data = data;
+        this.next = next;
+    }
+}
+```
+
+### MostrarInicioFim():
+
+Esse método retorna um array com os dados, percorrendo do início ao fim:
+
+```
+MostrarInicioFim(){
+    if (this.head != null){
+        let arr = [];
+        let current = this.head;
+        
+        while (current){
+            arr.push(current.data);
+            current = current.next;
+        }
+        return arr;
+    } else {
+        return null;
+    }
+}
+```
+
+### MostrarFimInicio():
+
+Semelhante ao nosso método anterior, ele retorna um array com os dados da fila, porém, percorrendo do fim ao início. Para isso, utilizaremos o reverse():
+
+```
+MostrarFimInicio(){
+    if (this.head != null){
+        let arr = this.MostrarInicioFim();
+        return arr.reverse();
+    } else {
+        return null;
+    }
+}
+```
+
+### AdicionarInicio(data):
+
+Adiciona o dado no início de nossa fila e, para isso, usaremos nossa classe Node criada anteriormente para auxílio. Precisamos também incrementar o nosso contador:
+
+```
+AdicionarInicio(data){
+    let no = new Node(data);
+    no.next = this.head;
+    this.head = no;
+    if (!this.tail) {
+        this.tail = this.head;
+    }
+    this.count++;
+}
+```
+
+### AdicionarFim(data):
+
+Esse método adicionar o dado no fim da fila. Semelhante ao nosso método anterior, usaremos a nossa classe Node de apoio. Precisamos também, nesse método, incrementar nosso contador.
+
+```
+AdicionarFim(data){
+    let no = new Node(data);
+    if (!this.head){
+        this.head = no;
+    } else {
+        this.tail.next = no;
+    }
+    this.tail = no;
+    this.count++;
+}
+```
+
+### RemoverInicio():
+
+Remove o dado que está no início (head) de nossa fila duplamente encadeada.
+
+```
+RemoverInicio(){
+    if (this.head){
+        if (this.count === 1){
+            this.head = null;
+            this.tail = null;
+        } else {
+            this.head = this.head.next;
+        }
+        this.count--;
+    }
+}
+```
+
+### RemoverFim():
+
+Remove o dado que está na posição final da nossa fila:
+
+```
+RemoverFim(){
+    if (this.head){
+        if (this.count === 1){
+            this.head = null;
+            this.tail === null;
+        } else {
+            let current = this.head;
+            while(current.next.next){
+                current = current.next;
+            }
+            this.tail = current;
+            this.tail.next = null;
+        }
+        this.count--;
+    }
+}
+```
