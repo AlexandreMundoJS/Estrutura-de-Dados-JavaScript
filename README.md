@@ -258,3 +258,162 @@ E a saída será:
 
 
 ![pilha](https://miro.medium.com/max/414/0*IShnMhggb7bxPig8.png)
+
+## LISTA ENCADEADA:
+
+Uma lista encadeada é uma sequência de objetos, onde cada elemento da sequência é armazenado em uma célula (nó) desta lista. O primeiro fica na primeira célula, o segundo na segunda célula e assim, sucessivamente. Cada célula possui seu próprio conteúdo. Você vai perceber as semelhanças entre Lista Encadeada, Fila e Pilha, visto que estas duas últimas foram criadas usando a ideia básica da Lista Encadeada. Seguindo nossa sequência, criaremos esta estrutura usando CLASS. Vamos definir nossa Lista Encadeada. Ela precisará de um Head para iniciar a lista e também um contador:
+
+![pilha](https://miro.medium.com/max/455/0*piawxG4gbVqUAdBE.png)
+
+```
+class ListaEncadeada{
+    constructor(head = null, count = 0){
+        this.head = head;
+        this.count = count;
+    }
+    GetContador(){
+        return this.count;
+    }
+}
+```
+
+Nossa lista terá os seguintes métodos:
+- MostrarTudo;
+- MostrarEm;
+- AdicionarInicio;
+- AdicionarNaPosicao;
+- RemoverInicio;
+- RemoverNaPosicao.
+
+#### Vamos lá!
+
+### MostrarTudo():
+
+Como o próprio nome já diz, esse método mostra todos os elementos que estão na lista. Ele retornará um array contendo os dados e, se a lista estiver vazia, retorna null:
+
+```
+MostrarTudo(){
+    if (this.head === null){
+        return null;
+    } else {
+        let arr = [];
+        let current = this.head;
+        for (let i = 0; i < this.count; i++) {
+            arr[i] = current.data;
+            current = current.next;
+        }
+        return arr;
+    }
+}
+```
+
+### MostrarEm(index):
+
+Nosso método MostrarEm nos retorna o elemento que está na posição desejada (index). Caso a posição buscada seja inexistente, o método retornará null:
+
+```
+MostrarEm(index){
+    if (index > -1 && index < this.count){
+        let current = this.head;
+        let i = 0;
+        while (i++ < index){
+                current = current.next;
+        }
+        return current.data;
+    } else {
+        return null;
+    }
+}
+```
+
+### AdicionarInicio(data):
+
+O nosso método adicionará o dado no início da lista. Caso esteja se perguntando, o início da lista é onde o índice é 0 e é referenciado pelo head. Precisamos incrementar o contador ao realizar a inserção:
+
+```
+AdicionarInicio(data){
+    let no = {
+        data: data,
+        next: this.head
+    };
+    this.head = no;
+    this.count++;
+}
+```
+
+### AdicionarNaPosicao(data, index):
+
+Adiciona um item na posição determinada. Precisamos verificar se não está fora dos limites da nossa lista encadeada. Caso não exista essa posição, mostraremos uma mensagem no console:
+
+```
+AdicionarNaPosicao(data, index){
+    if (index === 0) {
+        this.AdicionarInicio(data);
+    } else if (index > -1 && index < this.count){
+        let no = {
+            data: data,
+            next: null
+        };
+        let previous;
+        let current = this.head;
+        let i = 0;
+        while (i++ < index){
+            previous = current;
+            current = current.next;
+        }
+        previous.next = no;
+        no.next = current;
+        this.count++;
+    } else {
+        console.log("Não existe esta posição na lista.")
+    }
+}
+```
+
+### RemoverInicio():
+
+O método RemoverInicio() remove o primeiro item da lista. Caso a lista esteja vazia, o método retorna null.
+
+```
+RemoverInicio(){
+    if (this.head === null){
+        return null;
+    } else {
+        let out = this.head;
+        this.head = this.head.next;
+        if (this.count > 0){
+            this.count--;
+        }
+        return out.data;
+    }
+}
+```
+
+### RemoverNaPosicao(index):
+
+Remove o item que está na posição especificada. Precisamos novamente verificar se o índice está dentro dos limites da nossa lista:
+
+```
+RemoverNaPosicao(index){
+    if (index === 0) {
+        return this.RemoverInicio(this);
+    } 
+        
+    else if ( index > -1 && index < this.count){
+            
+        let current = this.head;
+        let previous;
+        let i = 0;
+        while (i++ < index){
+            previous = current;
+            current = current.next;
+        }
+        previous.next = current.next;
+        this.count--;
+        return current.data;
+    } else {
+        return null;
+    }    
+}
+```
+
