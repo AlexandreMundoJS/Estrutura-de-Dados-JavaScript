@@ -138,3 +138,123 @@ console.log(fila);
 E a nossa saída será:
 
 ![fila](https://miro.medium.com/max/331/0*UUAYxtMwo9VGn6qc.png)
+
+## PILHA:
+
+A pilha é uma estrutura de dados que implementa o conceito de último a entrar, primeiro a sair (LIFO (Last in First Out)), ou seja, o último elemento adicionado será o primeiro elemento a ser removido. Utilizaremos também, na nossa estrutura de dados, a palavra-chave class, que foi introduzida no ECMAScript 2015. Mas isso não significa que JavaScript é uma linguagem orientada e objetos. O JavaScript continua sendo orientado a protótipos, ou seja, o prototype continua agindo “por baixo dos panos”, e a palavra-chave class apenas “mascara” toda essa prototipagem, tornando o código mais simples de ser lido.
+
+Abaixo temos uma imagem do funcionamento da pilha:
+
+![pilha](https://miro.medium.com/max/500/0*kk8SpMo8Ya78u441.jpg)
+
+Então, para começarmos a implementar a pilha, precisamos construir a nossa classe Pilha e seu construtor. Vamos implementar também um contador, que será útil para nos mostrar a quantidade de itens na pilha. No nosso construtor, precisamos setar nossos valores do contador e do topo da pilha. Como ainda não há nada na pilha, o topo é null e o contador é 0:
+
+```
+class Pilha {
+    constructor(top = null, count = 0){
+        this.top = top;
+        this.count = count;
+    }
+    GetContador(){
+        return this.count;
+    }
+}
+```
+
+Nossa pilha terá os seguintes métodos:
+
+- Push;
+- Visualizar;
+- Remover;
+- MostrarTodos.
+
+### Push:
+
+Para criar nosso método push, precisamos criar um nó. Cada nó precisa ter o dado e a referência para o próximo nó, que precisa ser null, pois cada vez que inserirmos algo na pilha, esse elemento inserido deverá ser o primeiro a ser removido. Então, cada nó inserido deve virar o topo da pilha.
+
+```
+Push(data){
+    let no = {
+       data: data,
+       next: null
+    };
+    no.next = this.top;
+    this.top = no;
+    this.count++;
+}
+```
+
+### Visualizar:
+
+Para visualizarmos o item que está no topo da pilha, precisamos nos certificar de que a pilha não está vazia. Caso a pilha não estiver vazia, retornaremos o dado que está no topo de nossa estrutura:
+
+```
+Visualizar(){
+    if (this.top === null){
+        return null;
+    } else {
+        return this.top.data;
+    }
+}
+```
+
+### Remover:
+
+Para remover o elemento do topo da pilha, precisamos entender que a pilha não poderá estar vazia. Caso ela não esteja vazia, removeremos o elemento do topo e diminuiremos o nosso contador em 1.
+
+```
+Remover(){
+    if (this.top === null){
+        return null;
+    } else {
+        let remover = this.top;
+        this.top = this.top.next;
+        if (this.count > 0){
+            this.count--;
+        }
+        return remover.data;
+    }
+}
+```
+
+### MostrarTodos:
+
+Iremos adicionar os dados em um vetor, para então exibi-los. Precisamos ter certeza que nossa pilha não está vazia e, então, criamos um vetor, Utilizaremos um laço de repetição que irá inserir cada elemento de nossa pilha em sua respectiva posição:
+
+```
+MostrarTodos(){
+    if (this.top === null){
+        return null;
+    } else {
+        let arr = [];
+        let current = this.top;
+        for (let i = 0; i < this.count; i++){
+            arr[i] = current.data;
+            current = current.next;
+        }
+        return arr;
+    }
+}
+```
+
+E podemos testar a nossa estrutura de dados, instanciando uma nova pilha:
+
+```
+let pilha = new Pilha();
+pilha.Push(1);
+pilha.Push(2);
+pilha.Push(3);
+pilha.Push(4);
+pilha.Push(5);
+pilha.Push(6);
+pilha.Push(7);
+pilha.Remover();
+console.log(pilha.Visualizar());
+console.log(pilha.MostrarTodos());
+console.log(pilha);
+```
+
+E a saída será:
+
+
+![pilha](https://miro.medium.com/max/414/0*IShnMhggb7bxPig8.png)
