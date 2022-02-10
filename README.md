@@ -847,3 +847,241 @@ console.log(lista.MostrarTudo());
 E a saída será:
 
 ![deque](https://miro.medium.com/max/334/0*zsbUiiDphb0nXZ-X.png)
+
+## BINARY SEARCH TREE (Árvore de Busca Binária):
+
+Dando sequência aos nossos artigos de Estruturas de Dados com JavaScript, hoje implementaremos uma Árvore de Busca Binária (Binary Search Tree). Uma árvore é uma coleção de nós conectados por arestas e é uma estrutura não-linear. Uma das principais características de uma árvore binária é que os nós com menor valor são armazenados na sua esquerda, e os nos de valor mais alto são armazenados na direita.
+
+### Para começar, criaremos uma classe chamada nó, que servirá de apoio para a criação da nossa Árvore Binária:
+
+```
+class No{
+    constructor(data, esquerda = null, direita = null){
+        this.data = data;
+        this.esquerda = esquerda;
+        this.direita = null;
+    }
+}
+```
+
+Você pode perceber que o nó que criamos possui um dado e mais duas propriedades: esquerda e direita, que possuem valor nulo.
+
+### Agora, vamos criar a nossa Árvore:
+
+```
+class ArvoreBuscaBinaria{
+    constructor(root = null){
+        this.root = null;
+    }
+}
+```
+
+A nossa árvore possui um nó raiz, que é definido como tendo valor nulo pelo construtor.
+
+#### Também teremos os métodos principais da nossa árvore binária, que são:
+- Insercao(data);
+- InserirNo(no, novoNo);
+- Remover(data);
+- RemoverNo(no, key).
+#### E os métodos auxiliares, que são:
+- EncontrarMenorNo();
+- EncontrarNoRaiz();
+- EmOrdem(no);
+- PreOrdem(no);
+- PosOrdem(no);
+- Pesquisar(no, data).
+
+### Insercao(data) e InserirNo(no, novoNo):
+
+Com o método Insercao(data), inseriremos um novo nó na nossa árvore binária com o valor especificado. Esse método cria um nó a ser inserido e chamará o método InserirNo para isso. Então precisamos: Criar um novo nó e inicializá-lo com o dado a ser utilizado e, se a raiz estiver vazia, esse novo dado será a raiz da árvore. Senão, chamaremos o método InserirNo para achar a posição correta na árvore e adicionar o nó.
+
+```
+Insercao(data){
+    let novoNo = new No(data);
+    
+    if (this.root === null){
+        this.root = novoNo;
+    } else {
+        this.InserirNo(this.root, novoNo);
+    }
+}
+```
+
+O método InserirNo(no, novoNo) verifica em qual parte da árvore o nó deve ser inserido e coloca-o no lugar correto. Se o dado a ser inserido for menor que o nó raiz, o novo dado deve ir para a esquerda. Senão, o novo dado deve ir para a direita. O mesmo vale para os outros nós que já estão posicionados, ou seja, acontece uma comparação dos dados fornecidos com os dados do nó atual, movendo-se para a esquerda ou para a direita e recorrendo até encontrar um nó correto para qual o novo nó possa ser adicionado.
+
+
+```
+InserirNo(no, novoNo){
+    if (novoNo.data < no.data){
+        if (no.esquerda === null){
+            no.esquerda = novoNo;
+        } else {
+            this.InserirNo(no.esquerda, novoNo);
+        }
+    } else {
+        if (no.direita === null){
+            no.direita = novoNo;
+        } else {
+            this.InserirNo(no.direita, novoNo);
+        }
+    }
+}
+```
+
+### Remover(data) e RemoverNo(no, key):
+
+Para remover dados da nossa árvore binária, utilizamos os métodos Remover(data) e RemoverNo(no, key). O método Remover chama o método RemoverNo passando o nó raiz e dados fornecidos, atualizando a raiz da árvore com o valor que é retornado pela função. O método RemoverNo procura um nó com o dado passado e executa as etapas para excluí-lo. Podemos excluir um nó passando por três cenários diferentes:
+
+- Apenas um nó folha, que é um nó que não possui filhos. Eles são facilmente removidos.
+- Um nó com filho, que se o nó tiver um filho na parte esquerda, atualizaremos o ponteiro (referência) do nó pai para o filho esquerdo do nó a ser excluído. O mesmo acontece com o filho da parte direita.
+- Um nó com dois filhos, onde encontramos o nó com valor mínimo na parte direita e substituímos esse nó pelo nó com valor mínimo e removemos da árvore.
+
+```
+Remover(data){
+    this.root = this.RemoverNo(this.root, data);
+}
+RemoverNo(no, key){
+    if (no === null){
+        return null;
+    } else if (key > no.data){
+        no.direita = this.RemoverNo(no.direita, key);
+        return no;
+    } else {
+        if (no.esquerda === null && no.direita === null){
+            no = null;
+            return no;
+        } 
+        if(no.esquerda === null){
+            no = no.direita;
+            return no;
+        } else if (no.direita === null){
+            no = no.esquerda;
+            return no;
+        }
+        let aux = this.EncontrarMenorNo(no.direita);
+        no.data = aux.data;
+        no.direita = this.RemoverNo(no.direita, aux.data);
+        return no;
+    }
+}
+```
+
+Agora, precisamos percorrer a nossa árvore, e isso pode ser feito de diversas formas. Começaremos com o método:
+
+#### EmOrdem(no):
+
+Esse método percorre a árvore a partir de um nó. Percorre a subárvore esquerda, visita a raiz e percorre a subárvore direita.
+
+
+```
+EmOrdem(no){
+    if (no !== null){
+        this.EmOrdem(no.esquerda);
+        console.log(no.data);
+        this.EmOrdem(no.direita);
+    }
+}
+```
+
+### PreOrdem(no):
+
+Esse método percorre a árvore visitando primeiro o nó raiz e, então, percorre a subárvore esquerda. Após percorrer o lado esquerdo, o método percorre a subárvore direita.
+
+
+```
+PreOrdem(no){
+    if (no !== null){
+        console.log(no.data);
+        this.PreOrdem(no.esquerda);
+        this.PreOrdem(no.direita);
+    }
+}
+```
+
+### PosOrdem(no):
+
+Começa percorrendo a subárvore esquerda, depois, percorre a subárvore direita e por último, visita o nó root.
+
+```
+PosOrdem(no){
+    if (no !== null){
+        this.PosOrdem(no.esquerda);
+        this.PosOrdem(no.direita);
+        console.log(no.data);
+    }
+}
+```
+
+#### Agora, precisamos declarar métodos auxiliares.
+
+### EncontrarMenorNo(no):
+
+Procura o nó com menor valor na árvore binária. Esse método começa a busca a partir de um nó e move-se pela subárvore esquerda até encontrar um nó cujo filho esquerdo é nulo. Uma vez encontrado, retornamos.
+
+```
+EncontrarMenorNo(no){
+    if (no.esquerda===null){
+        return no;
+    } else {
+        return this.EncontrarMenorNo(no.esquerda);
+    }
+}
+```
+
+### EncontrarNoRaiz():
+
+Retorna o nó raiz de nossa árvore:
+
+```
+EncontrarNoRaiz(){
+    return this.root;
+}
+```
+
+### Pesquisar(no, data):
+
+Pesquisa o nó com dados que tenham o valor em toda a árvore:
+
+```
+Pesquisar(no, data){
+    if (no === null){
+        return null;
+    }
+    else if (data < no.data){
+        return this.Pesquisar(no.esquerda, data);
+    } else if (data > no.data){
+        return this.Pesquisar(no.direita, data);
+    } else {
+        return no;
+    }
+}
+```
+
+Agora, precisamos criar uma nova árvore e implementar seus métodos:
+
+```
+let arvoreBinaria = new ArvoreBuscaBinaria();
+arvoreBinaria.Insercao(20);
+arvoreBinaria.Insercao(25);
+arvoreBinaria.Insercao(15);
+arvoreBinaria.Insercao(10);
+arvoreBinaria.Insercao(28);
+arvoreBinaria.Insercao(27);
+arvoreBinaria.Insercao(9);
+arvoreBinaria.Insercao(7);
+arvoreBinaria.Insercao(2);
+arvoreBinaria.Insercao(28);
+let raiz = arvoreBinaria.EncontrarNoRaiz();
+arvoreBinaria.EmOrdem(raiz);
+arvoreBinaria.Remover(2);
+arvoreBinaria.PosOrdem(raiz);
+arvoreBinaria.PreOrdem(raiz);
+```
+
+E nossa saída será:
+
+![deque](https://miro.medium.com/max/659/0*GX6kvHJhGmcH9EvC.png)
+
+Referências:
+https://www.codeproject.com/Articles/669131/Data-Structures-with-JavaScript
+https://www.geeksforgeeks.org/implementation-binary-search-tree-javascript/
