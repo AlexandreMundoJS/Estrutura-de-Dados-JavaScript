@@ -1083,5 +1083,7 @@ E nossa saída será:
 ![deque](https://miro.medium.com/max/659/0*GX6kvHJhGmcH9EvC.png)
 
 Referências:
+
 https://www.codeproject.com/Articles/669131/Data-Structures-with-JavaScript
+
 https://www.geeksforgeeks.org/implementation-binary-search-tree-javascript/
