@@ -583,3 +583,267 @@ RemoverFim(){
     }
 }
 ```
+
+## LISTA DUPLAMENTE ENCADEADA:
+
+A Lista Duplamente Encadeada permite que seja percorrida em duas direções, direita e esquerda, diferentemente da Lista Encadeada simples, que permite que seja percorrido em apenas uma direção. Na Lista Duplamente Encadeada, cada elemento possui uma referência para o próximo elemento e para o elemento anterior, se esse elemento estiver disponível. Assim, podemos viajar para trás e para frente de cada elemento da lista.
+
+![deque](https://miro.medium.com/max/700/0*Fll9Q9H9xj8JegC_.png)
+
+Para criar nossa Lista, precisaremos de uma classe principal chamada ListaDuplamenteEncadeada e um classe que nos servirá de apoio, evitando reescrever código, chamada Node. A nossa lista terá um contador, que começará em 0 e, também, uma cabeça (head) e uma cauda (tail), que inicialmente terão o valor null:
+
+```
+class ListaDuplamenteEncadeada {
+    constructor(head = null, tail = null, count = 0){
+        this.head = head;
+        this.tail = tail;
+        this.count = count;
+    }
+}
+class Node{
+    constructor(data, next = null, previous = null){
+        this.data = data;
+        this.next = next;
+        this.previous = previous;
+    }
+}
+```
+
+Precisamos também implementar os métodos getHead, getTail e getCount:
+
+```
+getHead(){
+    if (this.head) {
+        return this.head.data;
+    }
+    return null;
+}
+getTail(){
+    if (this.tail) {
+        return this.tail.data;
+    }
+    return null;
+}
+GetCount(){
+    return this.count;
+}
+```
+
+A nossa lista terá os seguintes métodos:
+- MostrarTudo();
+- MostrarFimInicio();
+- VisualizarEm(index);
+- AdicionarInicio(data);
+- AdicionarFinal(data);
+- AdicionarEm(data, index);
+- RemoverInicio();
+- RemoverFinal();
+- RemoverEm(index).
+
+#### Vamos lá!
+
+### MostrarTudo():
+
+Como o próprio nome já diz, esse método nos mostrará todo o conteúdo da Lista Duplamente Encadeada. Para isso, utilizaremos um Array que conterá todos os dados da lista e percorreremos esse array com um laço FOR. Caso não ocorra a existência de dados na lista, retornará null:
+
+
+```
+MostrarTudo(){
+    if (this.head){
+        let arr = [];
+        let current = this.head;
+        for (let i = 0; i < this.count; i++){
+            arr[i] = current.data;
+            current = current.next;
+        }
+        return arr;
+    } else {
+        return null;
+    }
+}
+```
+
+### MostrarFimInicio():
+
+Esse método retorna um array que contém os dados de trás para frente, ou seja, da cauda para a cabeça (tail to head). Caso esteja vazio, retornará null:
+
+```
+MostrarFimInicio(){
+    if (this.head){
+        let arr = [];
+        let current = this.tail;
+        for (let i = 0; i < this.count; i++){
+            arr[i] = current.data;
+            current = current.previous;
+        }
+        return arr;
+    } else {
+        return null;
+    }
+}
+```
+
+### VisualizarEm(index):
+
+Esse método retorna o item no índice indicado. Caso esse índice não exista, retornará null:
+
+```
+VisualizarEm(index){
+    if (index > -1 && index < this.count){
+        let current = this.head;
+        let i = 0;
+        while (i++ < index){
+            current = current.next;
+        }
+        return current.data;
+    } else {
+        return null;
+    }
+}
+```
+
+### AdicionarInicio(data):
+
+Adiciona o elemento ao início da lista. Se a lista estiver vazia, o elemento adicionado será o único da lista:
+
+
+```
+AdicionarInicio(data){
+    let no = new Node(data);
+    no.next = this.head;
+    this.head = no;
+    if (this.count === 0){
+        this.tail = this.head;
+    } else {
+        this.head.next.previous = this.head;
+    }
+    this.count++;
+}
+```
+
+### AdicionarFinal(data):
+
+Funciona de maneira semelhante ao método anterior, mas adiciona o elemento ao final da lista:
+
+```
+AdicionarFinal(data){
+    let no = new Node(data);
+    no.previous = this.tail;
+    if (this.count === 0){
+        this.head = no;
+    } else {
+        this.tail.next = no;
+    }
+    this.tail = no;
+    this.count++;
+}
+```
+
+### AdicionarEm(data, index):
+
+Adiciona o elemento no índice indicado:
+
+```
+AdicionarEm(data, index){
+    if (index > 0 && index < this.count){
+        let no = new Node(data);
+        let current = this.head;
+        let i = 0;
+        while(i++ < index){
+            current = current.next;
+        }
+        current.previous.next = no;
+        no.next = current;
+        no.previous = current.previous;
+        current.previous = no;
+            
+        this.count++;
+    } else if (index < 1){
+        this.AdicionarInicio(data);
+    } else {
+        this.AdicionarFinal(data);
+    }
+}
+```
+
+### RemoverInicio():
+
+Remove o elemento situado no início da lista:
+
+```
+RemoverInicio(){
+    if (this.head){
+        this.head = this.head.next;
+        this.count--;
+        if (this.count === 0){
+            this.tail = null;
+        } else {
+            this.head.previous = null;
+        }
+    }
+}
+```
+
+### RemoverFinal():
+
+Remove o elemento situado no final da fila. Não esqueça de decrementar o contador:
+
+```
+RemoverFinal(){
+    if(this.head){
+        if(this.count === 1){
+            this.head = null;
+            this.tail = null;
+        } else {
+            this.tail.previous.next = null;
+            this.tail = this.tail.previous;
+        }
+        this.count--;
+    }
+}
+```
+
+### RemoverEm(index):
+
+Remove o elemento no índice indicado:
+
+```
+RemoverEm(index){
+    if (index > 0 && index < this.count-1){
+        let current = this.head;
+        let i = 0;
+        while( i++ < index){
+            current = current.next;
+        }
+        current.previous.next = current.next;
+        current.next.previous = current.previous;
+        this.count--;
+    } else if (index < 1){
+        this.RemoverInicio();
+    } else {
+        this.RemoverFinal();
+    }
+}
+```
+
+Teste no seu navegador:
+
+```
+let lista = new ListaDuplamenteEncadeada();
+lista.AdicionarInicio(1);
+lista.AdicionarInicio(4);
+lista.AdicionarInicio(5);
+lista.AdicionarInicio(6);
+lista.AdicionarFinal(2);
+lista.AdicionarEm(3, 1);
+console.log(lista.VisualizarEm(1));
+console.log(lista.MostrarFimInicio());
+lista.RemoverEm(2);
+lista.RemoverInicio();
+lista.RemoverFinal();
+console.log(lista.MostrarTudo());
+```
+
+E a saída será:
+
+![deque](https://miro.medium.com/max/334/0*zsbUiiDphb0nXZ-X.png)
