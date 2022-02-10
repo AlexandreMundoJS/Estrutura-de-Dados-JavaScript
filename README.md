@@ -421,7 +421,7 @@ RemoverNaPosicao(index){
 
 O Deque (Fila duplamente Encadeada) funciona basicamente com uma fila, com a diferença de que você pode adicionar e remover dados de qualquer extremidade da fila. Isso torna o nosso código um pouco mais difícil, mas chegaremos lá. Continuaremos usando class para realizar nossa estrutura de dados. Precisamos, inicialmente, criar a nossa classe Deque. Ela precisará de um início (head), um final (tail) e um contador:
 
-![deque](https://miro.medium.com/max/414/0*IShnMhggb7bxPig8.png)
+![deque](https://miro.medium.com/max/602/0*cA6vmVjmUgYdf5nF.jpg)
 
 ```
 class Deque {
@@ -462,7 +462,7 @@ A nossa fila duplamente encadeada terá os seguintes métodos:
 - AdicionarFim(data);- 
 - RemoverInicio();
 - RemoverFim().
-- 
+
 Para criarmos nossos métodos, criaremos nosso código de forma diferente aos anteriores. Utilizaremos uma Classe de auxílio, para evitar reescrever código:
 
 ```
