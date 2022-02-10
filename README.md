@@ -38,4 +38,102 @@ class Fila {
     }
 }
 ```
+### Enqueue:
 
+Para adicionarmos um item no início da nossa fila, precisamos criar um nó, que conterá o dado e uma referência à próxima posição da fila, que deverá ser null. Quando inserirmos nosso primeiro elemento, o início e o final da fila serão o mesmo elemento, e precisaremos incrementar o contador:
+
+```
+Enqueue(data){
+    let no = {
+        data: data,
+        next: this.head
+    };
+    if (this.head === null){
+        this.tail = no;
+    }
+    this.head = no;
+    this.count++;
+}
+```
+### Dequeue:
+Removeremos o primeiro elemento da fila e retornaremos o último item inserido e armazenado no final da fila. Fazendo isso, teremos que, enquanto houver um próximo elemento, avançaremos na fila. A ideia é ter um atual no final da fila e um anterior e, então, teremos que decrementar o contador:
+
+```
+Dequeue(){
+    if (this.count === 0){
+        return;
+    } else {
+        let current = this.head;
+        let previous = null;
+        while (current.next){
+            previous = current;
+            current = current.next;
+        }
+        if (this.count > 1){
+            previous.next = null;
+            this.tail = previous;
+        } else {
+            this.head = null;
+            this.tail = null;
+        }
+        this.count--;
+    }
+}
+```
+
+### MostrarTudo:
+
+O próprio nome já diz: mostraremos todos os elementos da fila. Utilizaremos um vetor para isso e, com um laço de repetição, iremos inserir cada valor em sua respectiva posição neste vetor. Também precisamos verificar se há elementos na fila:
+
+```
+MostrarTudo(){
+    if (this.head === null){
+        return null;
+    } else {
+        let arr = [];
+        let current = this.head;
+        for (let i = 0; i < this.count; i++) {
+            arr[i] = current.data;
+            current = current.next;
+        }
+        return arr;
+    }
+}
+```
+
+### VisualizarEm:
+
+No método VisualizarEm, iremos procurar o elemento na nossa fila, buscando-o e exibindo-o. Utilizaremos um laço de repetição para percorrer nossa fila e encontrar o elemento que buscamos:
+
+```
+VisualizarEm(index){
+    if (index > -1 && index < this.count){
+        let current = this.head;
+        for (let i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current.data;
+    } else {
+        return null;
+    }
+}
+```
+
+Agora, vamos testar:
+
+```
+let fila = new Fila();
+fila.Enqueue(1);
+fila.Enqueue(2);
+fila.Enqueue(3);
+fila.Enqueue(4);
+fila.Enqueue(5);
+fila.Enqueue(6);
+fila.Dequeue();
+fila.Dequeue();
+console.log(fila.VisualizarEm(1));
+console.log(fila.MostrarTudo());
+console.log(fila);
+```
+E a nossa saída será:
+![fila](https://miro.medium.com/max/331/0*UUAYxtMwo9VGn6qc.png)
